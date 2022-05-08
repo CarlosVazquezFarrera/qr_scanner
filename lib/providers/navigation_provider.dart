@@ -5,7 +5,8 @@ class NavigationProvider extends ChangeNotifier {
 
   int get selectedIndexPage => _currentIndexPage;
 
-  setIndexPage(int index) {
+  set setIndexPage(int index) {
+    if (_currentIndexPage == index) return;
     _currentIndexPage = index;
     notifyListeners();
   }
