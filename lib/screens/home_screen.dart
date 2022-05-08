@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_scanner/providers/db_provider.dart';
 import 'package:qr_scanner/providers/providers.dart';
 import 'package:qr_scanner/screens/screen.dart';
 import 'package:qr_scanner/widgets/widgets.dart';
@@ -29,6 +30,11 @@ class _HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigationProvider = Provider.of<NavigationProvider>(context);
+
+    final dbProvier = DbProvier();
+    final dbProvier2 = DbProvier();
+    print(identical(dbProvier, dbProvier2));
+    //dbProvier.currentDataBase;
 
     switch (navigationProvider.selectedIndexPage) {
       case 0:
