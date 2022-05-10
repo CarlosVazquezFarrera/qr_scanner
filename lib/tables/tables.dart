@@ -1,3 +1,3 @@
 class Tables {
-  static String scan = 'Scan';
+  static const String scan = 'Scan';
 }

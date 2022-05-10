@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:qr_scanner/helpers/creator.dart';
 import 'package:qr_scanner/models/sql/sql_model_base.dart';
 import 'package:qr_scanner/tables/tables.dart';
 
@@ -25,7 +26,6 @@ class DbProvier {
     return _database!;
   }
 
-
   ///it creates the Db if it not created yet
   Future<Database> initDb() async {
     Directory directory = await getApplicationDocumentsDirectory();
@@ -41,16 +41,24 @@ class DbProvier {
   }
 
   ///Base on witch table parameter is pass, db provider insert data into an specific table
-  Future<int> insert<T>(String table, T newData) async {
+  Future<int> insert(String table, SqlModelBase newData) async {
     final db = await currentDataBase;
-    final Map<String, dynamic> mapData = (newData as SqlModelBase).toMap();
+    final Map<String, dynamic> mapData = newData.toMap();
     int newRow;
     try {
       newRow = await db.insert(table, mapData);
     } catch (e) {
       newRow = -1;
     }
-    print(newRow);
     return newRow;
+  }
+
+  Future<T> getById<T>(String table, int id) async {
+    final db = await currentDataBase;
+    final List<Map<String, dynamic>> res =
+        await db.query(table, where: 'id = ?', whereArgs: [id]);
+    final Map<String, dynamic> mapRow = res.first;
+    final dataRow = Creator.createInstance(table, mapRow) as T;
+    return dataRow;
   }
 }
