@@ -3,12 +3,12 @@ import 'package:qr_scanner/tables/tables.dart';
 
 class Creator {
   ///Base on table
-  static T createInstance<T>(String table, Map<String, dynamic> mapData) {
+  static dynamic createInstance(String table, Map<String, dynamic> mapData) {
     switch (table) {
       case Tables.scan:
-        return Scan.fromMap(mapData) as T;
+        return Scan.fromMap(mapData);
       default:
-        return Object() as T;
+        return null;
     }
   }
 }

@@ -53,12 +53,42 @@ class DbProvier {
     return newRow;
   }
 
+  ///Base on table paramether it retuns an element that match with de id paramether
   Future<T> getById<T>(String table, int id) async {
     final db = await currentDataBase;
     final List<Map<String, dynamic>> res =
         await db.query(table, where: 'id = ?', whereArgs: [id]);
+    if (res.isEmpty) return null as T;
+
     final Map<String, dynamic> mapRow = res.first;
-    final dataRow = Creator.createInstance(table, mapRow) as T;
+    final dataRow = Creator.createInstance(table, mapRow);
     return dataRow;
+  }
+
+  ///base on table paramether it returns a list of specific elements
+  Future<List<dynamic>> getAll(String table) async {
+    final db = await currentDataBase;
+    final List<Map<String, dynamic>> res = await db.query(table);
+    if (res.isEmpty) return null as List;
+
+    final listData =
+        res.map((data) => Creator.createInstance(table, data)).toList();
+    return listData;
+  }
+
+  Future<List<dynamic>> getAllByWhereClause(
+      String table, String where, List<dynamic> whereArgs) async {
+    if (where.isEmpty || whereArgs.isEmpty) {
+      throw Exception(['No paramethers provides']);
+    }
+
+    final db = await currentDataBase;
+    final List<Map<String, dynamic>> res =
+        await db.query(table, where: where, whereArgs: whereArgs);
+    if (res.isEmpty) return null as List;
+
+    final listData =
+        res.map((data) => Creator.createInstance(table, data)).toList();
+    return listData;
   }
 }

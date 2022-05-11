@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_scanner/models/models.dart';
 import 'package:qr_scanner/providers/db_provider.dart';
 import 'package:qr_scanner/providers/providers.dart';
 import 'package:qr_scanner/screens/screen.dart';
@@ -33,7 +32,10 @@ class _HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final navigationProvider = Provider.of<NavigationProvider>(context);
     final dbProvier = DbProvier();
-    dbProvier.getById(Tables.scan, 1);
+    // dbProvier.insert(Tables.scan, Scan(content: 'gps:'));
+    // dbProvier.getById(Tables.scan, 1);
+    // dbProvier.getAll(Tables.scan);
+    dbProvier.getAllByWhereClause(Tables.scan, 'type = ?', [1]);
     switch (navigationProvider.selectedIndexPage) {
       case 0:
         return const MapasSceen();

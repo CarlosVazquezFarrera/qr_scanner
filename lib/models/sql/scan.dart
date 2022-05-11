@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'sql_model_base.dart';
 
 class Scan extends SqlModelBase {
-  Scan({required this.content, id, type}) {
+  Scan({required this.content, this.id, type}) {
     this.type = content.contains('http') ? 1 : 2;
   }
 
