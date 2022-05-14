@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_scanner/providers/providers.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   const CustomFloatingActionButton({Key? key}) : super(key: key);
@@ -9,11 +11,16 @@ class CustomFloatingActionButton extends StatelessWidget {
       elevation: 0,
       child: const Icon(Icons.filter_center_focus),
       onPressed: () async {
-        String scan = '';
+        String scan = 'http://www.youtube.com/';
         // String scan = await FlutterBarcodeScanner.scanBarcode(
         //     '#3D8BEF', 'Cancelar', false, ScanMode.QR);
         // if (scan == '-1') return;
-        print('Escaneado');
+
+        if (!scan.contains('http') || !scan.contains('gps')) return;
+        
+        final scansProvider =
+            Provider.of<ScansProvider>(context, listen: false);
+        scansProvider.newScan(scan);
       },
       tooltip: 'Escanea un código',
     );

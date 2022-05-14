@@ -8,10 +8,14 @@ class CustomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigationProvider = Provider.of<NavigationProvider>(context);
+    final scansProvider = Provider.of<ScansProvider>(context);
     return BottomNavigationBar(
         elevation: 0,
         currentIndex: navigationProvider.selectedIndexPage,
-        onTap: (newIndex) => navigationProvider.setIndexPage = newIndex,
+        onTap: (newIndex) {
+          navigationProvider.setIndexPage = newIndex;
+          scansProvider.
+        },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa'),
           BottomNavigationBarItem(
