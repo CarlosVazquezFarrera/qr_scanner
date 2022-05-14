@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_scanner/providers/providers.dart';
-import 'package:qr_scanner/screens/screen.dart';
 import 'package:qr_scanner/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,14 +33,21 @@ class _HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navigationProvider = Provider.of<NavigationProvider>(context);
-    switch (navigationProvider.selectedIndexPage) {
-      case 0:
-        return const MapasSceen();
-      case 1:
-        return const DirectionsPage();
-      default:
-        return const MapasSceen();
-    }
+    final dbProvider = Provider.of<ScansProvider>(context);
+    final scans = dbProvider.scans;
+    return ListView.separated(
+      itemCount: scans.length,
+      padding: EdgeInsets.zero,
+      itemBuilder: (_, index) {
+        return ListTile(
+          leading: const Icon(Icons.map),
+          title: Text(scans[index].content),
+          subtitle: Text(scans[index].id.toString()),
+          trailing: const Icon(Icons.arrow_forward_ios_sharp),
+          onTap: () {},
+        );
+      },
+      separatorBuilder: (_, __) => const Divider(),
+    );
   }
 }

@@ -24,6 +24,7 @@ class ScansProvider extends ChangeNotifier {
     final pageOpened = _currentPageIndex + 1;
     if (pageOpened == newScan.type) {
       scans.add(newScan);
+      
       notifyListeners();
     }
   }
