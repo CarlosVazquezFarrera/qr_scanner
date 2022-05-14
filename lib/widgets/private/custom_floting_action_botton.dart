@@ -12,12 +12,13 @@ class CustomFloatingActionButton extends StatelessWidget {
       child: const Icon(Icons.filter_center_focus),
       onPressed: () async {
         String scan = 'http://www.youtube.com/';
+        //20.8648818,-86.8968544
         // String scan = await FlutterBarcodeScanner.scanBarcode(
         //     '#3D8BEF', 'Cancelar', false, ScanMode.QR);
         // if (scan == '-1') return;
 
-        if (!scan.contains('http') || !scan.contains('gps')) return;
-        
+        if (!scan.contains('http') && !scan.contains('gps')) return;
+
         final scansProvider =
             Provider.of<ScansProvider>(context, listen: false);
         scansProvider.newScan(scan);

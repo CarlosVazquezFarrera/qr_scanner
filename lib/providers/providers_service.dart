@@ -10,7 +10,8 @@ class ProviderService {
       ),
       ChangeNotifierProxyProvider<NavigationProvider, ScansProvider>(
         create: (_) => ScansProvider(),
-        update: (_, navigationProvider, myNotifier) => myNotifier!..update(navigationProvider),   
+        update: (_, navigationProvider, myNotifier) =>
+            myNotifier!..update(navigationProvider.selectedIndexPage),
       )
     ];
   }

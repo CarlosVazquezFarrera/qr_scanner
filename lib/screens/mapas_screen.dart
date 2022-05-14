@@ -8,18 +8,19 @@ class MapasSceen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dbProvider = Provider.of<ScansProvider>(context);
+    final scans = dbProvider.scans;
     return ListView.separated(
+      itemCount: scans.length,
       padding: EdgeInsets.zero,
       itemBuilder: (_, index) {
         return ListTile(
           leading: const Icon(Icons.map),
-          title: const Text('XXX'),
-          subtitle: Text(index.toString()),
+          title: Text(scans[index].content),
+          subtitle: Text(scans[index].id.toString()),
           trailing: const Icon(Icons.arrow_forward_ios_sharp),
           onTap: () {},
         );
       },
-      itemCount: 10,
       separatorBuilder: (_, __) => const Divider(),
     );
   }

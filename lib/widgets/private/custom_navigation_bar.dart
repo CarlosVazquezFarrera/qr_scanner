@@ -14,7 +14,7 @@ class CustomNavigationBar extends StatelessWidget {
         currentIndex: navigationProvider.selectedIndexPage,
         onTap: (newIndex) {
           navigationProvider.setIndexPage = newIndex;
-          scansProvider.
+          scansProvider.loadSccandByType(newIndex + 1);
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa'),
