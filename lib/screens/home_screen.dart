@@ -33,21 +33,12 @@ class _HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dbProvider = Provider.of<ScansProvider>(context);
-    final scans = dbProvider.scans;
-    return ListView.separated(
-      itemCount: scans.length,
-      padding: EdgeInsets.zero,
-      itemBuilder: (_, index) {
-        return ListTile(
-          leading: const Icon(Icons.map),
-          title: Text(scans[index].content),
-          subtitle: Text(scans[index].id.toString()),
-          trailing: const Icon(Icons.arrow_forward_ios_sharp),
-          onTap: () {},
-        );
-      },
-      separatorBuilder: (_, __) => const Divider(),
-    );
+    final navigationProvider = Provider.of<NavigationProvider>(context);
+    if (navigationProvider.selectedIndexPage == 0) {
+      return const BodyContent(iconImage: Icons.map);
+    } 
+    else {
+      return const BodyContent(iconImage: Icons.directions);
+    }
   }
 }
