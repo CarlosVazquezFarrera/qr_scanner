@@ -2,19 +2,17 @@ import 'dart:io';
 import 'package:path/path.dart';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:qr_scanner/helpers/creator.dart';
-import 'package:qr_scanner/models/sql/sql_model_base.dart';
 import 'package:qr_scanner/tables/tables.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-class DbProvier {
-  DbProvier._();
+class DbProvider {
+  DbProvider._();
 
-  factory DbProvier() {
+  factory DbProvider() {
     return _dbProvier;
   }
-  static final DbProvier _dbProvier = DbProvier._();
+  static final DbProvider _dbProvier = DbProvider._();
 
   Database? _database;
 
@@ -41,9 +39,8 @@ class DbProvier {
   }
 
   ///Base on witch table parameter is pass, db provider insert data into an specific table
-  Future<int> insert(String table, SqlModelBase newData) async {
+  Future<int> insert(String table, Map<String, dynamic> mapData) async {
     final db = await _currentDataBase;
-    final Map<String, dynamic> mapData = newData.toMap();
     int newRow;
     try {
       newRow = await db.insert(table, mapData);
@@ -54,30 +51,24 @@ class DbProvier {
   }
 
   ///Base on table paramether it retuns an element that match with de id paramether
-  Future<T> getById<T>(String table, int id) async {
+  Future<Map<String, dynamic>> getById(String table, int id) async {
     final db = await _currentDataBase;
     final List<Map<String, dynamic>> res =
         await db.query(table, where: 'id = ?', whereArgs: [id]);
-    if (res.isEmpty) return null as T;
-
-    final Map<String, dynamic> mapRow = res.first;
-    final dataRow = Creator.createInstance(table, mapRow);
-    return dataRow;
+    if (res.isEmpty) {}
+    return res.first;
   }
 
   ///base on table paramether it returns a list of specific elements
-  Future<List<dynamic>> getAll(String table) async {
+  Future<List<Map<String, dynamic>>> getAll(String table) async {
     final db = await _currentDataBase;
     final List<Map<String, dynamic>> res = await db.query(table);
     if (res.isEmpty) return [];
-
-    final listData =
-        res.map((data) => Creator.createInstance(table, data)).toList();
-    return listData;
+    return res;
   }
 
   ///It returns elements base on where clause
-  Future<List<dynamic>> getAllByWhereClause(
+  Future<List<Map<String, dynamic>>> getAllByWhereClause(
       String table, String where, List<dynamic> whereArgs) async {
     if (where.isEmpty || whereArgs.isEmpty) {
       throw Exception(['No paramethers provides']);
@@ -87,16 +78,13 @@ class DbProvier {
         await db.query(table, where: where, whereArgs: whereArgs);
     if (res.isEmpty) return [];
 
-    final listData =
-        res.map((data) => Creator.createInstance(table, data)).toList();
-    return listData;
+    return res;
   }
 
   ///it updates an specific element on an specific table base on id parameter and table parameter
-  Future<int> updateById(String table, SqlModelBase data, int id) async {
+  Future<int> updateById(
+      String table, Map<String, dynamic> mapData, int id) async {
     final bd = await _currentDataBase;
-    final Map<String, dynamic> mapData = data.toMap();
-
     int update;
     try {
       update =
@@ -107,6 +95,7 @@ class DbProvier {
     return update;
   }
 
+  ///Drop one element from and specific table
   Future<int> deleteById(String table, int id) async {
     final bd = await _currentDataBase;
     int update;

@@ -1,1 +1,1 @@
-export 'package:qr_scanner/models/sql/scan.dart';
+export 'package:qr_scanner/models/scan.dart';
