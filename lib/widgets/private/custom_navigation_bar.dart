@@ -17,9 +17,9 @@ class CustomNavigationBar extends StatelessWidget {
           scansProvider.loadSccandByType(newIndex + 1);
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa'),
+          BottomNavigationBarItem(icon: Icon(Icons.language), label: 'Enlaces'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.compass_calibration), label: 'Direcciones')
+              icon: Icon(Icons.place_rounded), label: 'Direcciones')
         ]);
   }
 }
