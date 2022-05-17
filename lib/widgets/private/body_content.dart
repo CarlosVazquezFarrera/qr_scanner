@@ -47,7 +47,7 @@ class BodyItem extends StatelessWidget {
         title: Text(scan.content),
         subtitle: Text(scan.id.toString()),
         trailing: const Icon(Icons.arrow_forward_ios_sharp),
-        onTap: () => Util.openUrl(scan, context),
+        onTap: () => Util.openContent(scan, context),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_scanner/models/models.dart';
 import 'package:qr_scanner/providers/db_provider.dart';
-import 'package:qr_scanner/tables/tables.dart';
+import 'package:qr_scanner/enum/tables.dart';
 
 class ScansProvider extends ChangeNotifier {
   ScansProvider() {
@@ -49,5 +49,14 @@ class ScansProvider extends ChangeNotifier {
       scans.removeAt(index);
       notifyListeners();
     }
+  }
+
+  ///delete all scans from database
+  void deleteAll() async {
+    final delete = await dbProvier.deleteAll(Tables.scan);
+    if (delete < 0) return;
+
+    scans = [];
+    notifyListeners();
   }
 }

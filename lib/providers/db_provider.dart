@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:path/path.dart';
 
-import 'package:path_provider/path_provider.dart';
-import 'package:qr_scanner/tables/tables.dart';
+import 'package:qr_scanner/enum/tables.dart';
 
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbProvider {
@@ -105,5 +105,17 @@ class DbProvider {
       update = -1;
     }
     return update;
+  }
+
+  ///Removes all elemento from table
+  Future<int> deleteAll(String table) async {
+    final db = await _currentDataBase;
+    int delete;
+    try {
+      delete = await db.delete(table);
+    } catch (e) {
+      delete = -1;
+    }
+    return delete;
   }
 }
