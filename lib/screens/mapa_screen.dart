@@ -14,6 +14,8 @@ class MapaScreen extends StatefulWidget {
 class _MapaScreenState extends State<MapaScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   final double defaultZoom = 17.0;
+
+  MapType mapType = MapType.normal;
   @override
   Widget build(BuildContext context) {
     final Scan scan = ModalRoute.of(context)!.settings.arguments as Scan;
@@ -40,12 +42,22 @@ class _MapaScreenState extends State<MapaScreen> {
         ],
       ),
       body: GoogleMap(
+        zoomControlsEnabled: false,
         myLocationButtonEnabled: false,
-        mapType: MapType.normal,
+        mapType: mapType,
         markers: markers,
         initialCameraPosition: position,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.layers),
+        onPressed: () {
+          setState(() {
+            mapType =
+                mapType == MapType.normal ? MapType.satellite : MapType.normal;
+          });
         },
       ),
     );
