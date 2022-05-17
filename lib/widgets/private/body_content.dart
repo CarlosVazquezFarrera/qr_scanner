@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_scanner/models/models.dart';
 import 'package:qr_scanner/providers/providers.dart';
+import 'package:qr_scanner/utils/util.dart';
 
 class BodyContent extends StatelessWidget {
   const BodyContent({Key? key, required this.iconImage}) : super(key: key);
@@ -15,11 +17,7 @@ class BodyContent extends StatelessWidget {
       itemCount: scans.length,
       padding: EdgeInsets.zero,
       itemBuilder: (_, index) {
-        return BodyItem(
-            function: () => {},
-            iconImage: iconImage,
-            id: scans[index].id!,
-            content: scans[index].content);
+        return BodyItem(iconImage: iconImage, scan: scans[index]);
       },
       separatorBuilder: (_, __) => const Divider(),
     );
@@ -27,18 +25,11 @@ class BodyContent extends StatelessWidget {
 }
 
 class BodyItem extends StatelessWidget {
-  const BodyItem({
-    Key? key,
-    required this.iconImage,
-    required this.content,
-    required this.id,
-    required this.function,
-  }) : super(key: key);
+  const BodyItem({Key? key, required this.iconImage, required this.scan})
+      : super(key: key);
 
   final IconData iconImage;
-  final String content;
-  final int id;
-  final Function function;
+  final Scan scan;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +38,16 @@ class BodyItem extends StatelessWidget {
       onDismissed: (DismissDirection direction) {
         final scansProvider =
             Provider.of<ScansProvider>(context, listen: false);
-        scansProvider.deleteScan(id);
+        scansProvider.deleteScan(scan.id!);
       },
       direction: DismissDirection.startToEnd,
       background: const SwipeActionLeft(),
       child: ListTile(
         leading: Icon(iconImage),
-        title: Text(content),
-        subtitle: Text(id.toString()),
+        title: Text(scan.content),
+        subtitle: Text(scan.id.toString()),
         trailing: const Icon(Icons.arrow_forward_ios_sharp),
-        onTap: () {},
+        onTap: () => Util.openUrl(scan, context),
       ),
     );
   }

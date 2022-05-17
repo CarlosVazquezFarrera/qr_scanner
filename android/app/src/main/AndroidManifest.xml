@@ -1,9 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.qr_scanner">
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
    <application
         android:label="qr_scanner"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+          <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCCXJGFXIAt-A3Btho-GJVOciN4NwClkic"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

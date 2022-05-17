@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
+
 class Scan {
   Scan({required this.content, this.id}) {
     type = content.contains('http') ? 1 : 2;
@@ -17,4 +19,13 @@ class Scan {
   String toJson() => json.encode(toMap());
 
   Map<String, dynamic> toMap() => {"id": id, "type": type, "content": content};
+  
+  /// 
+  LatLng getLatLng() {
+    List<String> latLng =
+        content.substring(4).replaceAll(RegExp(r"\s+"), '').split(',');
+    final lat = double.parse(latLng[0]);
+    final lng = double.parse(latLng[1]);
+    return LatLng(lat, lng);
+  }
 }
