@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_scanner/providers/providers.dart';
 
@@ -11,12 +12,9 @@ class CustomFloatingActionButton extends StatelessWidget {
       elevation: 0,
       child: const Icon(Icons.filter_center_focus),
       onPressed: () async {
-        //String scan = 'http://www.udemy.com';
-        String scan = 'geo:20.866832966809675, -86.90166588760115';
-
-        // String scan = await FlutterBarcodeScanner.scanBarcode(
-        //     '#3D8BEF', 'Cancelar', false, ScanMode.QR);
-        // if (scan == '-1') return;
+        String scan = await FlutterBarcodeScanner.scanBarcode(
+            '#3D8BEF', 'Cancelar', false, ScanMode.QR);
+        if (scan == '-1') return;
         final isValidScan = scan.contains('geo') || scan.contains('http');
         if (!isValidScan) return;
 
