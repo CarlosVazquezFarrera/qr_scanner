@@ -13,23 +13,37 @@ class MapaScreen extends StatefulWidget {
 
 class _MapaScreenState extends State<MapaScreen> {
   final Completer<GoogleMapController> _controller = Completer();
-
+  final double defaultZoom = 17.0;
   @override
   Widget build(BuildContext context) {
     final Scan scan = ModalRoute.of(context)!.settings.arguments as Scan;
-    CameraPosition _kGooglePlex = CameraPosition(
+    final CameraPosition position = CameraPosition(
       target: scan.getLatLng(),
-      zoom: 17,
+      zoom: defaultZoom,
     );
 
+    Set<Marker> markers = <Marker>{};
+    markers.add(Marker(
+        markerId: const MarkerId('geo-location'), position: scan.getLatLng()));
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mapa'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.my_location),
+            onPressed: () async {
+              final GoogleMapController controller = await _controller.future;
+              controller.animateCamera(CameraUpdate.newCameraPosition(
+                  CameraPosition(target: scan.getLatLng(), zoom: defaultZoom)));
+            },
+          )
+        ],
       ),
       body: GoogleMap(
         myLocationButtonEnabled: false,
         mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
+        markers: markers,
+        initialCameraPosition: position,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
